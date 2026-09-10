@@ -1,11 +1,15 @@
-import { expect, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export class InventoryPage {
-  constructor(private readonly page: Page) {}
+  readonly title: Locator;
+  readonly inventoryItems: Locator;
+  readonly cartBadge: Locator;
 
-  readonly title = this.page.locator('.title');
-  readonly inventoryItems = this.page.locator('.inventory_item');
-  readonly cartBadge = this.page.locator('.shopping_cart_badge');
+  constructor(private readonly page: Page) {
+    this.title = page.locator('.title');
+    this.inventoryItems = page.locator('.inventory_item');
+    this.cartBadge = page.locator('.shopping_cart_badge');
+  }
 
   async verifyLoaded() {
     await expect(this.title).toHaveText('Products');

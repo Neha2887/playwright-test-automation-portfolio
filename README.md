@@ -1,6 +1,6 @@
 # Playwright Test Automation Portfolio
 
-A professional **UI + API automation framework** built with **Playwright and TypeScript**. This repository demonstrates framework design, Page Object Model, reusable utilities, cross-browser execution, test data separation, reporting, parallel execution, and CI/CD integration with GitHub Actions.
+A professional **UI + API automation framework** built with **Playwright and TypeScript**. This repository demonstrates framework design, Page Object Model, reusable utilities, cross-browser execution, test data separation, BDD/Gherkin scenario design, reporting, parallel execution, and CI/CD integration with GitHub Actions.
 
 ## Tech Stack
 
@@ -9,6 +9,7 @@ A professional **UI + API automation framework** built with **Playwright and Typ
 - Node.js
 - Page Object Model (POM)
 - REST API testing
+- Gherkin / BDD scenario design
 - GitHub Actions CI/CD
 - HTML reporting
 - Chromium, Firefox, and WebKit
@@ -18,6 +19,11 @@ A professional **UI + API automation framework** built with **Playwright and Typ
 ```text
 .
 ├── .github/workflows/      # CI pipeline
+├── features/               # Gherkin / BDD scenarios
+│   ├── login.feature
+│   ├── cart.feature
+│   ├── api.feature
+│   └── purchase.feature
 ├── pages/                  # Page Object classes
 ├── test-data/              # Test data
 ├── tests/
@@ -37,6 +43,7 @@ This is a portfolio-safe implementation of common enterprise SDET practices. It 
 
 - Clean Page Object Model design
 - UI and REST API tests in one framework
+- BDD-style business scenarios written in Gherkin
 - Reusable API client
 - Environment-based configuration
 - Cross-browser execution
@@ -45,6 +52,17 @@ This is a portfolio-safe implementation of common enterprise SDET practices. It 
 - Screenshots, traces, and video on failures
 - HTML reports
 - GitHub Actions quality gate
+
+## BDD / Gherkin Scenarios
+
+The `features/` folder documents key business scenarios using **Given / When / Then** syntax. These scenarios are used for readable test design and traceability, while the executable automation currently runs with the native Playwright Test runner.
+
+Current feature coverage includes:
+
+- Valid and invalid login
+- Add product to cart
+- REST API GET and POST validation
+- End-to-end purchase flow
 
 ## Getting Started
 
@@ -120,7 +138,7 @@ The GitHub Actions workflow runs automatically on pushes and pull requests to `m
 
 ## Why This Project
 
-This project demonstrates the type of automation architecture I use for enterprise QA: readable tests, reusable components, maintainable locators, API coverage, parallel execution, diagnostics for failures, and CI/CD integration.
+This project demonstrates the type of automation architecture I use for enterprise QA: readable tests, reusable components, maintainable locators, API coverage, BDD-style test design, parallel execution, diagnostics for failures, and CI/CD integration.
 
 ## Future Enhancements
 

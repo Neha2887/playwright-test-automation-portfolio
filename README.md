@@ -122,14 +122,6 @@ The GitHub Actions workflow runs automatically on pushes and pull requests to `m
 
 This project demonstrates the type of automation architecture I use for enterprise QA: readable tests, reusable components, maintainable locators, API coverage, parallel execution, diagnostics for failures, and CI/CD integration.
 
-## Interview Talking Points
-
-- Explain why Page Object Model reduces locator duplication and maintenance cost.
-- Describe how Playwright auto-waiting and stable locators reduce flaky tests.
-- Discuss workers, retries, traces, screenshots, and video for CI diagnostics.
-- Show how UI and API coverage can coexist in one TypeScript framework.
-- Walk through the GitHub Actions quality gate triggered by pushes and pull requests.
-
 ## Future Enhancements
 
 - Database validation with SQL Server

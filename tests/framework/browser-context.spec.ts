@@ -33,11 +33,13 @@ test(
 test(
   'multiple pages can be managed in one browser context',
   { tag: ['@framework', '@context'] },
-  async ({ context }) => {
+  async ({ context, page }) => {
+    await page.goto(appUrl);
+
     const secondPage = await context.newPage();
     await secondPage.goto(appUrl);
 
-    expect(context.pages().length).toBeGreaterThanOrEqual(2);
+    expect(context.pages()).toHaveLength(2);
     await secondPage.close();
   },
 );

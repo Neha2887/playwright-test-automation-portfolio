@@ -102,6 +102,12 @@ GitHub Actions performs TypeScript validation, installs Playwright browsers, run
 
 See [`docs/PLAYWRIGHT_FEATURES.md`](docs/PLAYWRIGHT_FEATURES.md) for where each Playwright capability is implemented.
 
+## About Me
+
+I’m **Neha Joshi**, a Senior SDET and QA Automation Engineer with 13+ years of experience building reliable, maintainable test automation solutions across UI, API, database, and CI/CD layers. I enjoy solving quality engineering challenges, improving automation frameworks, and continuously learning new tools and technologies.
+
+Outside of technology, I enjoy **acrylic painting and dance**. Both give me a creative outlet and bring the same qualities I value in engineering—patience, attention to detail, expression, and continuous improvement.
+
 ## Author
 
 **Neha Joshi**  

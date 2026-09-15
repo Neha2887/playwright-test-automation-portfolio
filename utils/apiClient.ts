@@ -14,4 +14,16 @@ export class ApiClient {
     expect(response.ok()).toBeTruthy();
     return response;
   }
+
+  async put(path: string, data: unknown) {
+    const response = await this.request.put(path, { data });
+    expect(response.ok()).toBeTruthy();
+    return response;
+  }
+
+  async delete(path: string) {
+    const response = await this.request.delete(path);
+    expect(response.ok()).toBeTruthy();
+    return response;
+  }
 }

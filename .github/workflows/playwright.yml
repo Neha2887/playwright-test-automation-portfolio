@@ -9,8 +9,14 @@ on:
 
 jobs:
   test:
+    name: shard ${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2]
+        shardTotal: [2]
 
     steps:
       - uses: actions/checkout@v4
@@ -29,11 +35,55 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: npm test
+      - name: Run Playwright shard
+        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
-      - name: Upload Playwright report
+      - name: Upload blob report
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.shardIndex }}
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: warn
+
+  merge-reports:
+    name: Merge Playwright reports
+    if: always()
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download blob reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: blob-report-*
+          path: all-blob-reports
+          merge-multiple: true
+
+      - name: Merge reports
+        run: npx playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload merged HTML report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report

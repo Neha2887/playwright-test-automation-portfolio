@@ -1,6 +1,6 @@
 {
   "name": "playwright-test-automation-portfolio",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "Professional UI, API, mobile and framework-capability automation portfolio using Playwright and TypeScript",
   "scripts": {
@@ -10,11 +10,13 @@
     "test:api": "playwright test --project=api",
     "test:mobile": "playwright test --project=mobile-chrome --project=mobile-safari",
     "test:framework": "playwright test --project=framework",
+    "test:authenticated": "playwright test --project=authenticated-chromium",
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
     "test:smoke": "playwright test --grep @smoke",
     "test:regression": "playwright test --grep @regression",
+    "test:data-driven": "playwright test --grep @dataDriven --project=framework",
     "test:headed": "playwright test --headed",
     "test:ui-mode": "playwright test --ui",
     "test:debug": "playwright test --debug",
@@ -30,9 +32,7 @@
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit"
   },
-  "engines": {
-    "node": ">=20"
-  },
+  "engines": { "node": ">=20" },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
     "@types/node": "^24.3.0",

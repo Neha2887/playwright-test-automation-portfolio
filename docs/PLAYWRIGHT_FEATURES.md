@@ -1,1 +1,95 @@
-# Playwright Feature Guide\n\nThis repository intentionally demonstrates the Playwright capabilities most useful in a production SDET framework.\n\n## Execution and scale\n\n- **Workers:** configured in `playwright.config.ts`; CI uses 2 workers.\n- **Fully parallel:** enabled globally; independent tests can execute concurrently.\n- **Sharding:** GitHub Actions runs 2 shards and merges blob reports.\n- **Retries:** enabled on CI.\n- **maxFailures:** limits wasted CI execution after repeated failures.\n- **Project-level workers:** the `framework` project is capped at one worker to demonstrate project-specific control.\n\n## Projects and environments\n\n- API-only project\n- Chromium, Firefox and WebKit desktop projects\n- Pixel 5 and iPhone 13 mobile projects\n- Dedicated framework-capability project\n- Environment-driven UI and API base URLs\n\n## Test organization\n\n- Page Object Model\n- Custom test fixtures\n- Worker-scoped fixture with `workerIndex` and `parallelIndex`\n- Automatic fixture adding worker metadata to reports\n- Hooks with `beforeEach`\n- `test.step()` for readable actions\n- Native Playwright tags and grep-based smoke/regression commands\n- Soft assertions with `expect.soft()`\n\n## Browser automation features\n\n- Role, locator and custom `getByTestId()` strategies\n- Custom `testIdAttribute` mapped to SauceDemo's `data-test` attribute\n- BrowserContext isolation\n- Multiple pages in one context\n- `storageState()` capture and reuse\n- Mobile device emulation\n- Locale, timezone and dark-mode emulation\n- Permissions and geolocation\n- Iframe handling with `frameLocator()`\n- JavaScript dialog handling\n- File upload with `setInputFiles()`\n- Download event handling\n- Network interception with `page.route()`\n- Response synchronization with `waitForResponse()`\n- Playwright Clock\n\n## API testing\n\n`tests/api/posts.spec.ts` and `utils/apiClient.ts` demonstrate GET, POST, PUT and DELETE requests using Playwright's API request fixture and response assertions.\n\n## Diagnostics and reporting\n\n- Trace on first retry\n- Screenshot on failure\n- Video retained on failure\n- Unique `testInfo.outputPath()` artifacts\n- `testInfo.attach()` metadata\n- HTML reports locally\n- Blob reports in sharded CI\n- Merged HTML report in GitHub Actions\n\n## Developer tooling\n\n- UI Mode: `npm run test:ui-mode`\n- Inspector/debug: `npm run test:debug`\n- Codegen: `npm run codegen`\n- Trace-enabled execution: `npm run test:trace`\n- Test listing: `npm run test:list`\n- Repeat-each and last-failed commands\n\n## Visual testing\n\n`tests/framework/visual.spec.ts` always captures a screenshot artifact. It also includes an opt-in `toHaveScreenshot()` visual-regression example. Snapshot baselines are not forced into normal CI because visual baselines should be intentionally generated and reviewed for the target operating system/browser.\n\n## Features intentionally not forced into this demo\n\nSome Playwright capabilities are application-specific and are not enabled just for checkbox coverage: a local `webServer`, proxy configuration, HAR replay, branded Chrome/Edge channels, component testing, and application-specific authentication setup. They can be added when a target application actually needs them.\n
+# Playwright Feature Guide
+
+This repository demonstrates the Playwright capabilities most useful in a production SDET framework.
+
+## Execution and scale
+
+- **Workers:** configured in `playwright.config.ts`; CI uses 2 workers.
+- **Fully parallel:** enabled globally; independent tests can execute concurrently.
+- **Sharding:** GitHub Actions runs 2 shards and merges blob reports.
+- **Retries:** enabled on CI.
+- **maxFailures:** limits wasted CI execution after repeated failures.
+- **Project-level workers:** the `framework` project is capped at one worker to demonstrate project-specific control.
+- **Repeat and last-failed execution:** available through npm scripts.
+
+## Projects and environments
+
+- Authentication setup project
+- Authenticated Chromium project with a dependency on setup
+- API-only project
+- Chromium, Firefox and WebKit desktop projects
+- Pixel 5 and iPhone 13 mobile projects
+- Dedicated framework-capability project
+- Environment-driven UI and API base URLs
+
+## Authentication
+
+- `tests/auth.setup.ts` logs in once.
+- Authenticated state is saved to `playwright/.auth/user.json`.
+- `authenticated-chromium` depends on the setup project.
+- Tests in `tests/authenticated/` reuse `storageState`.
+- The auth directory is ignored by Git so session data is not committed.
+
+## Test organization
+
+- Page Object Model
+- Custom test fixtures
+- Worker-scoped fixture with `workerIndex` and `parallelIndex`
+- Automatic fixture adding worker metadata to reports
+- Hooks with `beforeEach`
+- `test.step()` for readable actions
+- Native Playwright tags and grep-based smoke/regression commands
+- Soft assertions with `expect.soft()`
+- Data-driven tests generated from test-data arrays
+
+## Browser automation features
+
+- Role, locator and custom `getByTestId()` strategies
+- Custom `testIdAttribute` mapped to SauceDemo's `data-test` attribute
+- BrowserContext isolation
+- Multiple pages in one context
+- `storageState()` capture and reuse
+- Mobile device emulation
+- Locale, timezone and dark-mode emulation
+- Permissions and geolocation
+- Iframe handling with `frameLocator()`
+- JavaScript dialog handling
+- File upload with `setInputFiles()`
+- Download event handling
+- Network interception with `page.route()`
+- Response synchronization with `waitForResponse()`
+- Playwright Clock
+
+## API testing
+
+`tests/api/posts.spec.ts` and `utils/apiClient.ts` demonstrate GET, POST, PUT and DELETE requests using Playwright's API request fixture and response assertions.
+
+## Diagnostics and reporting
+
+- Trace on first retry
+- Screenshot on failure
+- Video retained on failure
+- Unique `testInfo.outputPath()` artifacts
+- `testInfo.attach()` metadata
+- HTML reports locally
+- Blob reports in sharded CI
+- Merged HTML report in GitHub Actions
+
+## Developer tooling
+
+- UI Mode: `npm run test:ui-mode`
+- Inspector/debug: `npm run test:debug`
+- Codegen: `npm run codegen`
+- Trace-enabled execution: `npm run test:trace`
+- Test listing: `npm run test:list`
+- Repeat-each and last-failed commands
+- Worker-count override scripts
+- Shard-specific scripts
+
+## Visual testing
+
+`tests/framework/visual.spec.ts` always captures a screenshot artifact. It also includes an opt-in `toHaveScreenshot()` visual-regression example. Snapshot baselines are not forced into normal CI because visual baselines should be intentionally generated and reviewed for the target operating system/browser.
+
+## Features intentionally not forced into this demo
+
+A few Playwright capabilities are target-application or infrastructure specific rather than universally useful: a local `webServer`, corporate proxy configuration, HAR replay, branded Chrome/Edge channels, and component testing. Those should be added when the system under test actually needs them rather than only for checkbox coverage.

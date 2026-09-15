@@ -5,16 +5,16 @@ dotenv.config();
 
 const isCI = !!process.env.CI;
 const uiBaseURL = process.env.BASE_URL || 'https://www.saucedemo.com';
-const apiBaseURL = process.env.API_BASE_URL || 'https://jsonplaceholder.typicode.com';
+const apiBaseURL =
+  process.env.API_BASE_URL || 'https://jsonplaceholder.typicode.com';
+const authFile = 'playwright/.auth/user.json';
 
 export default defineConfig({
   testDir: './tests',
   outputDir: 'test-results',
   timeout: 30_000,
   globalTimeout: isCI ? 15 * 60_000 : undefined,
-  expect: {
-    timeout: 5_000,
-  },
+  expect: { timeout: 5_000 },
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
@@ -40,11 +40,23 @@ export default defineConfig({
   },
   projects: [
     {
+      name: 'setup',
+      testMatch: /auth\.setup\.ts/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'authenticated-chromium',
+      testMatch: /authenticated\/.*\.spec\.ts/,
+      dependencies: ['setup'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: authFile,
+      },
+    },
+    {
       name: 'api',
       testMatch: /api\/.*\.spec\.ts/,
-      use: {
-        baseURL: apiBaseURL,
-      },
+      use: { baseURL: apiBaseURL },
     },
     {
       name: 'chromium',
